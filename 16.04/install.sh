@@ -65,7 +65,22 @@ function install_others {
 }
 
 function install_composer {
-    wget https://dl.laravel-china.org/composer.phar -O /usr/local/bin/composer
+    EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    ACTUAL_SIGNATURE="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+    if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
+    then
+        >&2 echo 'ERROR: Invalid installer signature'
+        rm composer-setup.php
+        exit 1
+    fi
+
+    php composer-setup.php --quiet
+    RESULT=$?
+    rm composer-setup.php
+    mv composer.phar /usr/local/bin/composer
+    # wget https://dl.laravel-china.org/composer.phar -O /usr/local/bin/composer
     chmod +x /usr/local/bin/composer
     # sudo -H -u ${WWW_USER} sh -c  'cd ~ && composer config -g repo.packagist composer https://packagist.laravel-china.org'
 }
