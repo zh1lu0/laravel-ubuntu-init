@@ -32,14 +32,14 @@ function init_alias {
 function init_repositories {
     add-apt-repository -y ppa:ondrej/php
     add-apt-repository -y ppa:nginx/stable
-    grep -rl ppa.launchpad.net /etc/apt/sources.list.d/ | xargs sed -i 's/ppa.launchpad.net/launchpad.proxy.ustclug.org/g'
+    # grep -rl ppa.launchpad.net /etc/apt/sources.list.d/ | xargs sed -i 's/ppa.launchpad.net/launchpad.proxy.ustclug.org/g'
 
-    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-    echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+    # curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+    # echo "deb https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
 
-    curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-    echo 'deb https://mirrors.tuna.tsinghua.edu.cn/nodesource/deb_8.x xenial main' > /etc/apt/sources.list.d/nodesource.list
-    echo 'deb-src https://mirrors.tuna.tsinghua.edu.cn/nodesource/deb_8.x xenial main' >> /etc/apt/sources.list.d/nodesource.list
+    # curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+    # echo 'deb https://mirrors.tuna.tsinghua.edu.cn/nodesource/deb_8.x xenial main' > /etc/apt/sources.list.d/nodesource.list
+    # echo 'deb-src https://mirrors.tuna.tsinghua.edu.cn/nodesource/deb_8.x xenial main' >> /etc/apt/sources.list.d/nodesource.list
 
     apt-get update
 }
@@ -71,7 +71,7 @@ function install_composer {
 }
 
 call_function init_system "正在初始化系统" ${LOG_PATH}
-# call_function init_repositories "正在初始化软件源" ${LOG_PATH}
+call_function init_repositories "正在初始化软件源" ${LOG_PATH}
 call_function install_basic_softwares "正在安装基础软件" ${LOG_PATH}
 call_function install_php "正在安装 PHP" ${LOG_PATH}
 call_function install_others "正在安装 Nginx / Redis / Memcached / Beanstalkd / Sqlite3" ${LOG_PATH}
