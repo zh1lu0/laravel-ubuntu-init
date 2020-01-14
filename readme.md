@@ -1,11 +1,3 @@
-<p align="center">
-  <br>
-  <b>创造不息，交付不止</b>
-  <br>
-  <a href="https://www.yousails.com">
-    <img src="https://yousails.com/banners/brand.png" width=350>
-  </a>
-</p>
 
 ![group](https://cloud.githubusercontent.com/assets/324764/18408949/02d3cb2a-7770-11e6-96e2-54bbcfbfa1d1.png)
 
@@ -18,7 +10,7 @@
 ## 软件列表
 
 * Git
-* PHP 7.2
+* PHP 7.3
 * Nginx
 * MySQL
 * Sqlite3
@@ -33,7 +25,7 @@
 
 以下软件需手动执行安装脚本：
 
-* Elasticsearch：`./16.04/install_elasticsearch.sh`
+* Elasticsearch：`./16.04/install_elasticsearch.sh`，默认为 6.x，如果要安装 7.x 则执行 `./16.04/install_elasticsearch.sh 7`
 
 ## 安装步骤
 

@@ -14,8 +14,9 @@ function init_system {
     locale-gen en_US.UTF-8
     locale-gen zh_CN.UTF-8
     locale-gen zh_TW.UTF-8
+    locale-gen ja_JP.UTF-8
 
-    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    # ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
     apt-get update
     apt-get install -y software-properties-common
@@ -54,7 +55,7 @@ function install_node_yarn {
 }
 
 function install_php {
-    apt-get install -y php7.2-bcmath php7.2-cli php7.2-curl php7.2-fpm php7.2-gd php7.2-mbstring php7.2-mysql php7.2-opcache php7.2-pgsql php7.2-readline php7.2-xml php7.2-zip php7.2-sqlite3
+    apt-get install -y php7.3-bcmath php7.3-cli php7.3-curl php7.3-fpm php7.3-gd php7.3-mbstring php7.3-mysql php7.3-opcache php7.3-pgsql php7.3-readline php7.3-xml php7.3-zip php7.3-sqlite3 php7.3-redis
 }
 
 function install_others {
@@ -67,24 +68,9 @@ function install_others {
 }
 
 function install_composer {
-    EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
-    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    ACTUAL_SIGNATURE="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
-
-    if [ "$EXPECTED_SIGNATURE" != "$ACTUAL_SIGNATURE" ]
-    then
-        >&2 echo 'ERROR: Invalid installer signature'
-        rm composer-setup.php
-        exit 1
-    fi
-
-    php composer-setup.php --quiet
-    RESULT=$?
-    rm composer-setup.php
-    mv composer.phar /usr/local/bin/composer
-    # wget https://dl.laravel-china.org/composer.phar -O /usr/local/bin/composer
+    curl https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer
     chmod +x /usr/local/bin/composer
-    # sudo -H -u ${WWW_USER} sh -c  'cd ~ && composer config -g repo.packagist composer https://packagist.laravel-china.org'
+    sudo -H -u ${WWW_USER} sh -c  'cd ~ && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/'
 }
 
 call_function init_system "正在初始化系统" ${LOG_PATH}
